@@ -1,6 +1,5 @@
 package com.nubiq.timemanagerapp.data.repository
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import com.nubiq.timemanagerapp.data.database.TimeActivity
 import com.nubiq.timemanagerapp.data.database.dao.TimeActivityDao
@@ -21,6 +20,10 @@ class TimeRepository(
         timeActivityDao.insert(activity)
     }
 
+    suspend fun updateActivity(activity: TimeActivity) {
+        timeActivityDao.update(activity)
+    }
+
     suspend fun deleteActivity(activity: TimeActivity) {
         timeActivityDao.delete(activity)
     }
@@ -29,13 +32,16 @@ class TimeRepository(
         return timeActivityDao.getActivitiesByDate(date)
     }
 
-    // Add this method
     fun getAllDates(): LiveData<List<String>> {
         return timeActivityDao.getAllDates()
     }
 
     suspend fun getDailySummary(date: String): List<TimeActivityDao.ActivitySummary> {
-        return timeActivityDao.getDailySummary(date)
+        return try {
+            timeActivityDao.getDailySummary(date)
+        } catch (e: Exception) {
+            emptyList()
+        }
     }
 
     suspend fun getCategoriesList(): List<com.nubiq.timemanagerapp.data.database.Category> {
@@ -44,6 +50,7 @@ class TimeRepository(
         // If no categories exist, create default ones
         if (categories.isEmpty()) {
             createDefaultCategories()
+            // Get fresh list after creation
             return categoryDao.getAllCategories().value ?: emptyList()
         }
 

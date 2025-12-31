@@ -19,14 +19,16 @@
             android:layout_weight="1"
             android:text="Work"
             android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textColor="?android:attr/textColorPrimary" />
 
         <TextView
             android:id="@+id/tvTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="09:00 - 10:00"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:textColor="?android:attr/textColorSecondary" />
 
     </LinearLayout>
 
@@ -42,7 +44,7 @@
             android:layout_weight="1"
             android:text="60m"
             android:textSize="14sp"
-            android:textColor="@android:color/darker_gray" />
+            android:textColor="?android:attr/textColorSecondary" />
 
         <TextView
             android:id="@+id/tvNotes"
@@ -50,13 +52,15 @@
             android:layout_height="wrap_content"
             android:text="Meeting with team"
             android:textSize="14sp"
-            android:textColor="@android:color/darker_gray"
+            android:textColor="?android:attr/textColorSecondary"
             android:maxLines="1"
             android:ellipsize="end" />
 
     </LinearLayout>
 
+    <!-- ADD ID TO THE DIVIDER -->
     <View
+        android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@android:color/darker_gray"

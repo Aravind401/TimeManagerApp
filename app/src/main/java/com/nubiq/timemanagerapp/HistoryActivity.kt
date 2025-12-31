@@ -1,6 +1,8 @@
 package com.nubiq.timemanagerapp
 
+import android.content.Intent
 import android.os.Bundle
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -34,7 +36,10 @@ class HistoryActivity : AppCompatActivity() {
     private fun setupRecyclerView() {
         adapter = HistoryDateAdapter { date ->
             // Return to MainActivity with selected date
-            setResult(RESULT_OK)
+            val resultIntent = Intent().apply {
+                putExtra("SELECTED_DATE", date)
+            }
+            setResult(RESULT_OK, resultIntent)
             finish()
         }
         binding.rvDates.layoutManager = LinearLayoutManager(this)
@@ -42,14 +47,21 @@ class HistoryActivity : AppCompatActivity() {
     }
 
     private fun loadDates() {
-        // Use the property, not the method
         viewModel.allDates.observe(this) { dates ->
-            adapter.submitList(dates.sortedDescending())
+            dates?.let {
+                adapter.submitList(it.sortedDescending())
+            }
         }
     }
 
     override fun onSupportNavigateUp(): Boolean {
+        setResult(RESULT_CANCELED)
         finish()
         return true
+    }
+
+    override fun onBackPressed() {
+        setResult(RESULT_CANCELED)
+        super.onBackPressed()
     }
 }

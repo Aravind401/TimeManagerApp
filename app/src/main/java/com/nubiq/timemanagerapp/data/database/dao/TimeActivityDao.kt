@@ -22,7 +22,6 @@ interface TimeActivityDao {
     @Query("SELECT * FROM time_activities ORDER BY date DESC, startTime")
     fun getAllActivities(): LiveData<List<TimeActivity>>
 
-    // Make sure this method exists
     @Query("SELECT DISTINCT date FROM time_activities ORDER BY date DESC")
     fun getAllDates(): LiveData<List<String>>
 

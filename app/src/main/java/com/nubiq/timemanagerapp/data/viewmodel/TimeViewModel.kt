@@ -18,15 +18,17 @@ class TimeViewModel(application: Application) : AndroidViewModel(application) {
     val selectedDate: LiveData<String> = _selectedDate
 
     val allCategories: LiveData<List<com.nubiq.timemanagerapp.data.database.Category>>
-
-    // Remove the duplicate method, keep only the property
     val allDates: LiveData<List<String>>
+
+    // Add LiveData for daily summary
+    private val _dailySummary = MutableLiveData<List<Pair<String, Float>>>()
+    val dailySummary: LiveData<List<Pair<String, Float>>> = _dailySummary
 
     init {
         val db = AppDatabase.getDatabase(application)
         repository = TimeRepository(db.timeActivityDao(), db.categoryDao())
         allCategories = repository.getAllCategories()
-        allDates = repository.getAllDates()  // Initialize allDates
+        allDates = repository.getAllDates()
 
         // Set today's date as default
         _selectedDate.value = repository.getTodayDate()
@@ -39,23 +41,59 @@ class TimeViewModel(application: Application) : AndroidViewModel(application) {
 
     fun setSelectedDate(date: String) {
         _selectedDate.value = date
+        loadDailySummary(date)
     }
 
     fun getActivitiesByDate(date: String): LiveData<List<TimeActivity>> {
         return repository.getActivitiesByDate(date)
     }
 
-    // Remove the duplicate getAllDates() method
+    // Modified method to return LiveData
+    fun getDailySummaryLiveData(date: String): LiveData<List<Pair<String, Float>>> {
+        loadDailySummary(date)
+        return dailySummary
+    }
+
+    // Load daily summary in background
+    private fun loadDailySummary(date: String) {
+        viewModelScope.launch {
+            try {
+                val summary = repository.getDailySummary(date)
+                val entries = summary.map { Pair(it.activityType, it.totalDuration.toFloat()) }
+                _dailySummary.postValue(entries)
+            } catch (e: Exception) {
+                _dailySummary.postValue(emptyList())
+            }
+        }
+    }
+
+    // Keep the suspend function for direct access if needed
+    suspend fun getDailySummary(date: String): List<Pair<String, Float>> {
+        return try {
+            val summary = repository.getDailySummary(date)
+            summary.map { Pair(it.activityType, it.totalDuration.toFloat()) }
+        } catch (e: Exception) {
+            emptyList()
+        }
+    }
 
     fun insertActivity(activity: TimeActivity) = viewModelScope.launch {
         repository.insertActivity(activity)
+        // Refresh summary after inserting
+        _selectedDate.value?.let { loadDailySummary(it) }
+    }
+
+    fun updateActivity(activity: TimeActivity) = viewModelScope.launch {
+        repository.updateActivity(activity)
+        // Refresh summary after updating
+        _selectedDate.value?.let { loadDailySummary(it) }
     }
 
     fun deleteActivity(activity: TimeActivity) = viewModelScope.launch {
         repository.deleteActivity(activity)
+        // Refresh summary after deleting
+        _selectedDate.value?.let { loadDailySummary(it) }
     }
-
-    suspend fun getDailySummary(date: String) = repository.getDailySummary(date)
 
     fun addCategory(category: com.nubiq.timemanagerapp.data.database.Category) = viewModelScope.launch {
         repository.addCategory(category)

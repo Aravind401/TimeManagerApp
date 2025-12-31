@@ -14,4 +14,13 @@
     <string name="add_category">Add New Category</string>
     <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>
+    <!-- Notification strings -->
+    <string name="default_notification_channel_id">time_tracker_reminders</string>
+    <string name="notification_channel_name">Time Tracker Reminders</string>
+    <string name="notification_channel_description">Reminders for scheduled activities</string>
+    <string name="reminder_title">Activity Reminder</string>
+    <string name="reminder_message">Your activity \"%s\" starts at %s</string>
+    <string name="enable_reminders">Enable Reminders</string>
+    <string name="reminder_time">Reminder Time (minutes before)</string>
+    <string name="notification_settings">Notification Settings</string>
 </resources>

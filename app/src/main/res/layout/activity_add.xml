@@ -92,6 +92,30 @@
                 android:textSize="14sp"
                 android:layout_marginBottom="16dp" />
 
+            <!-- REMINDER SECTION -->
+            <TextView
+                android:id="@+id/tvReminderTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Reminder"
+                android:textSize="16sp"
+                android:layout_marginBottom="8dp" />
+
+            <Spinner
+                android:id="@+id/spReminder"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/tvReminderNote"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Optional: Get notified before your activity starts"
+                android:textSize="12sp"
+                android:textColor="@android:color/darker_gray"
+                android:layout_marginBottom="16dp" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

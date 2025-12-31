@@ -21,8 +21,74 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="16dp">
 
+            <!-- Theme Settings -->
+            <!-- Theme Settings Section -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Theme Settings"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="16dp" />
+
+            <TextView
+                android:id="@+id/tvCurrentTheme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Current: System Default"
+                android:textSize="14sp"
+                android:layout_marginBottom="16dp" />
+
+            <Button
+                android:id="@+id/btnChangeTheme"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="Change Theme"
+                android:layout_marginBottom="24dp"
+                android:textAllCaps="false" />
+
+            <!-- Notification Settings -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Notification Settings"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="16dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Enable Reminders"
+                    android:textSize="16sp" />
+
+                <Switch
+                    android:id="@+id/swReminders"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnTestNotification"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="Test Notification"
+                android:layout_marginBottom="24dp"
+                android:textAllCaps="false" />
+
+            <!-- Category Settings -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -38,6 +104,7 @@
                 android:textSize="14sp"
                 android:layout_marginBottom="16dp" />
 
+            <!-- FIXED: ListView with simple background -->
             <ListView
                 android:id="@+id/lvCategories"
                 android:layout_width="match_parent"
